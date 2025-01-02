@@ -1,0 +1,11 @@
+metadatas:
+  - guid: 536e5008-2349-4019-8de4-4790bb87ab2e
+    name: ""
+    t_hash: api::ShaderProgram
+    meta:
+      __class__: api::ShaderProgram
+      __data__:
+        mOwner:
+          guid: 3585c167-9cff-4327-88db-d07601382640
+        mStage: 1
+includes: ~

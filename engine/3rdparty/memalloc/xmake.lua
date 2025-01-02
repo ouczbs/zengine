@@ -1,0 +1,7 @@
+target("memalloc")
+    set_group("3rdparty")
+    set_kind("shared")
+    add_rules("engine.api")
+    add_includedirs("include",{public = true})
+    add_headerfiles("include/*.h")
+    add_files("src/*.cpp")

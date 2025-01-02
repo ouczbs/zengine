@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	 <!-- 
+	 nvo- 仅数字值（即字节/字符不包括 ascii 表示）
+	 x- 小写十六进制显示
+	 b- bare-没有前导 0x -->
+	<Type Name="api::Guid">
+		<DisplayString>{{{Data1,nvoxb}-{Data2,nvoxb}-{Data3,nvoxb}-{Data4[0],nvoxb}{Data4[1],nvoxb}-{Data4[2],nvoxb}{Data4[3],nvoxb}{Data4[4],nvoxb}{Data4[5],nvoxb}{Data4[6],nvoxb}{Data4[7],nvoxb}}}</DisplayString>
+	</Type>
+	<Type Name="pmr::Name">
+        <!-- 显示 Name 的32位值 -->
+        <DisplayString Condition="flag3_memory29">{g_memory_blocks[(flag3_memory29 >> 16) % 0x2000] + 2*(flag3_memory29 % 0x10000) + 2,s}</DisplayString>
+	</Type>
+</AutoVisualizer>
