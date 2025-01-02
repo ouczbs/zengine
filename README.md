@@ -26,6 +26,7 @@
 
 [Xmake库](https://github.com/ouczbs/xmake.repo.git)
 
+[项目原地址](http://175.24.226.114:3000/ouczbs/zengine.git)
 ### 模块工作方式
 - **全局变量**：所有全局变量都包含在 `engine.dll` 中，其他模块（如 `core.lib`、`render.lib` 等）可以通过指针引用访问。这减少了重复性并确保模块间的一致性。
 - **模块化逻辑**：不是通过 DLL 接口导出所有函数，而是只导出必要的函数，最大限度地减少了冗余，确保代码简洁可维护。
