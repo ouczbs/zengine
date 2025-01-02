@@ -4,19 +4,14 @@
 
 ## 功能
 - **模块化架构**：将引擎拆分成多个独立模块，提高了可维护性和可扩展性。
+- **全局接口**：通过 `engine.dll` engine.dll 管理Pimpl导出接口， `singleton.dll` 保证全局变量指向的内存唯一。 
 - **渲染**：使用 Vulkan 实现，且有抽象层支持未来扩展到 OpenGL、DirectX 和 Metal 等其他渲染 API。
 - **资源管理**：包括基础的资源管理、加载和序列化功能。
-- **UI**：初步集成了 NoesisGUI 和 ImGui 进行 XAML UI 元素的渲染。
-- **接口导出**：通过 `engine.dll` 集中管理全局状态，避免模块间不一致。
-- **高效内存管理**：通过 `pmr` 内存资源和模板元编程优化内存分配。
-- **编辑器支持**：为编辑器功能提供基本的集成，未来计划使用 ImGui 和 NoesisGUI 开发完整的编辑器工具。
+- **反射序列化**：通过代码生成实现反射功能，支持 JSON, YAML 的序列化与反序列化
+- **UI**：初步集成了 NoesisGUI 和 ImGui 进行 XAML UI 元素的渲染，未来计划使用 ImGui 和 NoesisGUI 开发编辑器和游戏UI。
 
 ## 安装
-
-[代码生成工具](http://175.24.226.114:3000/ouczbs/cppast.git)
-
-[xmake 第三方库](http://175.24.226.114:3000/ouczbs/xmake.repo.git)
-
+`xmake project -k vsxmake2022 -m "debug;release"`
 ## 项目结构
 - **engine.dll**：核心 DLL，负责整合所有模块并管理全局状态和模块生命周期。
 - **core.lib, render.lib, asset.lib, app.lib, ui.lib**：提供不同功能的静态库（渲染、资源加载、UI 处理等），链接到 `engine.dll`。
@@ -25,6 +20,11 @@
 - **vulkan.dll**：包含 Vulkan 特定的渲染逻辑，和 `engine.dll`、`editor.dll` 进行交互。
 - **editor.dll**：使用 ImGui 和 NoesisGUI 提供编辑器界面（仍在开发中）。
 - **zworld.exe**：目标游戏执行文件，当前实现了 Vulkan 渲染三角形，并展示了 NoesisGUI 的 XAML UI。
+
+### 依赖项目
+[代码生成工具](https://github.com/ouczbs/xmake.repo)
+
+[Xmake库](https://github.com/ouczbs/xmake.repo.git)
 
 ### 模块工作方式
 - **全局变量**：所有全局变量都包含在 `engine.dll` 中，其他模块（如 `core.lib`、`render.lib` 等）可以通过指针引用访问。这减少了重复性并确保模块间的一致性。
@@ -40,7 +40,7 @@
 - **跨模块访问**：模块可以访问共享变量，而不必担心重复问题。
 
 ### 2. zlib.lib
-提供多种实用工具，包括压缩支持和高级内存管理。
+提供多种实用工具，包括反射和高级内存管理。
 
 - **PMR 内存管理**：使用多态内存资源 (`pmr`) 优化内存分配和释放策略。
 - **反射**：实现基础的运行时反射，用于数据序列化和反序列化（JSON、YAML）。
