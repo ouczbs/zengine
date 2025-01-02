@@ -1,0 +1,16 @@
+namespace refl{
+    template<> struct Meta<{{FullName}}>{
+    {%- if HasParent %}
+        using Parent = {{ ParentName }};
+    {%- endif %}
+    	using T = {{FullName}};
+    {%- if HasMeta %}
+    	using Impl = gen::MetaImpl<T, string_hash("Meta")>;
+    {%- endif %}
+    {%- if IsMultyMeta %}
+    	consteval static auto MetaList() {
+            return std::array{ {% for Meta in MetaList %}string_hash("{{Meta}}"){% unless forloop.last %}, {% endunless %}{% endfor %} };
+        }
+    {%- endif %}
+    };
+}

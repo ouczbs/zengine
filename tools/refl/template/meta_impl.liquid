@@ -1,0 +1,26 @@
+namespace gen{
+    template<> struct MetaImpl<{{FullName}}, string_hash("{{MetaName}}")> : public refl::MetaHelp {
+    	using T = {{FullName}};
+        consteval static int MemberCount() { return {{MemberCount}}; };
+        consteval static int StaticMemberCount() { return {{StaticMemberCount}}; };
+        consteval static int CtorCount() { return {{CtorCount}}; };
+        consteval static auto Fields(){
+            return std::make_tuple({% for field in FieldList limit:LastAttrIndex%}{%- if field.Type == 1 %}FProperty(&T::{{field.Name}},"{{field.Name}}"){% unless forloop.last %}, {% endunless %}{%- endif %}{% endfor %}); 
+        }
+        static auto MakeFields() {
+            return std::array{
+                {%- for field in FieldList %}
+                    {%- if field.Type == 1 %}
+                MemberField(&T::{{field.Name}}, "{{field.Name}}", {{field.Meta}}),
+                    {%- elsif field.Type == 2 %}
+                CtorField((T::{{field.Ref}})nullptr, {{field.Meta}}),
+                    {%- elsif field.Type == 3 %}
+                MethodField(&T::{{field.Name}}, "{{field.Name}}", {{field.Meta}}),
+                    {%- else %}
+                MethodField((T::{{field.Ref}})&T::{{field.Name}}, "{{field.Name}}", {{field.Meta}}),
+                    {%- endif %}
+                {%- endfor %}
+            };
+        };
+    };
+}

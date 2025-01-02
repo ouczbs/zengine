@@ -4,6 +4,5 @@
 .xmake/
 build/
 vsxmake*/
-/tools
-!tools/refl/
+/tools/make_plugin
 *.log
