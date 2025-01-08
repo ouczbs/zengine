@@ -1,5 +1,5 @@
 --add_repositories("local_repo F:\\xmake.repo")
-add_repositories("local_repo git@github.com:ouczbs/xmake.repo.git")
+add_repositories("local_repo https://github.com/ouczbs/xmake.repo.git")
 add_rules("mode.debug", "mode.release")
 set_version("1.0.1", {soname = true})
 set_arch("x64")

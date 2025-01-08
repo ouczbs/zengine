@@ -11,9 +11,12 @@
 - **UI**：初步集成了 NoesisGUI 和 ImGui 进行 XAML UI 元素的渲染，未来计划使用 ImGui 和 NoesisGUI 开发编辑器和游戏UI。
 
 ## 安装
-需要 [LLVM](https://releases.llvm.org/)
+安装 [LLVM](https://releases.llvm.org/) 、[xmake](https://github.com/xmake-io/xmake)
 
 `xmake project -k vsxmake2022 -m "debug;release"`
+
+`如果证书报错 git config --global http.schannelCheckRevoke false`
+
 ## 项目结构
 - **engine.dll**：核心 DLL，负责整合所有模块并管理全局状态和模块生命周期。
 - **core.lib, render.lib, asset.lib, app.lib, ui.lib**：提供不同功能的静态库（渲染、资源加载、UI 处理等），链接到 `engine.dll`。
