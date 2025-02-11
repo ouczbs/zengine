@@ -15,7 +15,7 @@ namespace refl {
 		constexpr Any() noexcept: ptr(nullptr), cls(nullptr) {}
 		constexpr Any(const void* ptr, const UClass* cls) noexcept : ptr(ptr), cls(cls) {}
 		template<is_not_any_v T>
-		constexpr Any(T&& v) noexcept : ptr(&v), cls(meta_info<T>()) {}
+		constexpr Any(T&& v) noexcept : ptr(&v), cls(meta_info<std::remove_reference_t<T>>()) {}
 		template<is_not_any_v T>
 		constexpr Any(T* v) noexcept : ptr(v), cls(meta_info<T>()) {}
 		template<typename T>//参数 T* => T*
@@ -62,5 +62,17 @@ namespace refl {
 			CopyTo(ptr);
 			Destruct();
 		}
+	};
+	template<typename T>
+	class TAny : public Any{
+	public:
+		TAny() : Any(){}
+		TAny(T* t) : Any(t){}
+		T* operator->() {
+			return (T*)ptr;
+		}
+	};
+	template<typename T> struct Meta<TAny<T>> {
+		using Parent = Any;
 	};
 }

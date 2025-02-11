@@ -13,6 +13,10 @@ namespace gen {
 	struct YamlSerde<T, std::enable_if_t<refl::is_meta_v<T>>> {
 		inline static bool Read(const YAML::Node& node, const void* ptr) {
 			T& v = *(T*)ptr;
+			if constexpr (refl::has_parent_v<T>) {
+				using P = refl::parent_t<T>;
+				YamlRead<refl::parent_t<T>>(node[PARENT_KEY_NAME], *(P*)ptr);
+			}
 			for_each_field([&](std::string_view name, auto&& value) {
 				YamlRead(node[name], value);
 			}, v);
@@ -21,6 +25,10 @@ namespace gen {
 		inline static YAML::Node Write(const void* ptr) {
 			T& v = *(T*)ptr;
 			YAML::Node node;
+			if constexpr (refl::has_parent_v<T>) {
+				using P = refl::parent_t<T>;
+				node[PARENT_KEY_NAME] = YamlWrite<P>(*(P*)ptr);
+			}
 			for_each_field([&](std::string_view name, auto&& value) {
 				node[name] = YamlWrite(value);
 			}, v);
@@ -35,8 +43,8 @@ namespace gen {
 			value_type_t it;//构造失败怎么办？
 			for (auto node_i : node) {
 				if constexpr (refl::is_map_v<T>) {
-					YamlRead(node_i["#k"], it.first);
-					YamlRead(node_i["#v"], it.second);
+					YamlRead(node_i[MAP_KEY_NAME], it.first);
+					YamlRead(node_i[MAP_VALUE_NAME], it.second);
 					docker[it.first] = it.second;
 				}
 				else {
@@ -52,8 +60,8 @@ namespace gen {
 			if constexpr (refl::is_map_v<T>) {
 				for (auto& it : docker) {
 					YAML::Node node_i;
-					node_i["#k"] = YamlWrite(it.first);
-					node_i["#v"] = YamlWrite(it.second);
+					node_i[MAP_KEY_NAME] = YamlWrite(it.first);
+					node_i[MAP_VALUE_NAME] = YamlWrite(it.second);
 					node.push_back(node_i);
 				}
 			}

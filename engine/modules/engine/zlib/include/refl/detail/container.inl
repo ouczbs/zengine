@@ -15,7 +15,7 @@ namespace refl {
 		Any malloc(pmr::memory_resource* alloc)const {
 			void* it = alloc->allocate(cls->parent->size);
 			cls->Construct(it);
-			return Any{ it, cls };
+			return Any{ it, cls->parent };
 		}
 		span<const FieldPtr> GetFields() {
 			return cls->parent->GetFields(EFieldFind::FIND_ALL_MEMBER, Name(""));

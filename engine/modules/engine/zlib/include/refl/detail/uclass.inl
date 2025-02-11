@@ -26,6 +26,10 @@ namespace refl {
 					flag = CLASS_ENUM_FLAG;
 					parent = meta_info<std::underlying_type_t<T>>();
 				}
+				else if constexpr (has_parent_v<T>) {
+					flag |= CLASS_PARENT_FLAG;
+					parent = meta_info<parent_t<T>>();
+				}
 				vtable.AddConstruct(&UClass::Construct<T>);
 				vtable.AddDestruct(&UClass::Destruct<T>);
 			}
@@ -170,6 +174,7 @@ namespace refl {
 		FieldsType Fields{ MetaImpl::MakeFields() };
 		UClass_Meta() : UClass(meta_name<T>(), sizeof(T)) {
 			if constexpr (has_parent_v<T>) {
+				flag |= CLASS_PARENT_FLAG;
 				parent = meta_info<parent_t<T>>();
 			}
 			vtable.AddGetFields(&UClass_Meta::GetFields);

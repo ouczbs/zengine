@@ -16,8 +16,8 @@ namespace vkn {
     void vkn::VulkanUISystem::OnBeginRenderFrame(FrameGraph& graph, uint32_t frame)
     {
 #ifdef WITH_EDITOR
-        graph.mIsRenderEditorSurface = gEngineConfig.IsRenderEditorSurface;
-        if (gEngineConfig.IsRenderEditorSurface) {
+        graph.mIsRenderEditorSurface = gEditorConfig.IsRenderEditorSurface;
+        if (gEditorConfig.IsRenderEditorSurface) {
             graph.mEditorSurfaceID = graph.mSurfaceID;
             graph.mSurfaceID = graph.GetTextureID(FrameGraph::NameEditorSurface, frame);
         }
@@ -38,7 +38,7 @@ namespace vkn {
             .Type(RenderPassNodeType::Imgui, RenderPassNodeFlag::Output)
             .Write(graph.GetRenderSurface(), ResourceState::COLOR_ATTACHMENT)
             .Write(stencil, ResourceState::DEPTH_ATTACHMENT);
-        if (gEngineConfig.IsRenderEditorSurface) {
+        if (gEditorConfig.IsRenderEditorSurface) {
             builder.Read(graph.GetSurface(), ResourceState::READ_ONLY);
         }
     }

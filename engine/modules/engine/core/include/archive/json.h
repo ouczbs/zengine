@@ -7,15 +7,15 @@
 #define JSON_WRITE_FLAGS YYJSON_WRITE_NOFLAG
 #endif
 namespace gen {
-	template<>
-	inline bool JsonRead<refl::Any>(yyjson_val* node, const refl::Any& t) {
-		if (!node) return false;
-		return api::JsonArchive::Deserialize(node, t);
-	}
-	template<>
-	inline yyjson_mut_val* JsonWrite<refl::Any>(yyjson_mut_doc* doc, const refl::Any& t) {
-		return api::JsonArchive::Serialize(doc, t);
-	}
+	template<is_any_v T>
+	struct JsonSerde<T> {
+		inline static bool Read(yyjson_val* val, const void* ptr) {
+			return api::JsonArchive::Deserialize(val, refl::Any{ ptr, refl::meta_info<refl::Any>() });
+		}
+		inline static yyjson_mut_val* Write(yyjson_mut_doc* doc, const void* ptr) {
+			return api::JsonArchive::Serialize(doc, refl::Any{ ptr, refl::meta_info<refl::Any>() });
+		}
+	};
 }
 namespace api {
 	namespace detail {

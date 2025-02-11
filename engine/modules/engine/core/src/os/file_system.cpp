@@ -44,4 +44,15 @@ namespace fs {
         return path.string();
     }
 
+    void EnsurePathExists(std::string_view path)
+    {
+        size_t pos = path.find_last_of("\\/");
+        if (std::string::npos != pos){
+            std::string_view dir = path.substr(0, pos);
+            if (!std::filesystem::exists(dir)) {
+                std::filesystem::create_directories(dir);  // 如果目录不存在，则创建它
+            }
+        }
+    }
+
 }

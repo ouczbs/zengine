@@ -1,15 +1,15 @@
 #include "yaml/serde.inl"
 #include "yaml/serialize.inl"
 namespace gen {
-	template<>
-	inline bool YamlRead<refl::Any>(const YAML::Node& node, const refl::Any& t) {
-		if (!node) return false;
-		return api::YamlArchive::Deserialize(node, refl::Any{ &t, refl::meta_info<refl::Any>() });
-	}
-	template<>
-	inline YAML::Node YamlWrite<refl::Any>(const refl::Any& t) {
-		return api::YamlArchive::Serialize(refl::Any{&t, refl::meta_info<refl::Any>()});
-	}
+	template<is_any_v T>
+	struct YamlSerde<T> {
+		inline static bool Read(const YAML::Node& node, const void* ptr) {
+			return api::YamlArchive::Deserialize(node, refl::Any{ ptr, refl::meta_info<refl::Any>() });
+		}
+		inline static YAML::Node Write(const void* ptr) {
+			return api::YamlArchive::Serialize(refl::Any{ ptr, refl::meta_info<refl::Any>() });
+		}
+	};
 }
 namespace YAML {
 	inline Node APILoad(std::string_view text) {

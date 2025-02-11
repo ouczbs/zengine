@@ -75,7 +75,7 @@ namespace api {
 		ImGui::Begin("MainWindow", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar);
 		ImGui::Text("This is some useful text.");
 		ImGui::SliderFloat("float", &my_float, 0.0f, 1.0f);
-		if (gEngineConfig.IsRenderEditorSurface) {
+		if (gEditorConfig.IsRenderEditorSurface) {
 			TextureDesc surface = graph.GetSurface();
 			if (!TextureIDList[ctx.frame]) {
 				TextureIDList[ctx.frame] = ctx->AddTexture(graph, surface, sampler);
@@ -84,7 +84,7 @@ namespace api {
 			ImGui::Image(TextureIDList[ctx.frame], ImVec2(surface.width, surface.height));
 		}
 		else {
-			gEngineConfig.IsRenderEditorSurface = true;
+			gEditorConfig.IsRenderEditorSurface = true;
 			InitRenderSurface(graph, ctx.frameCount);
 		}
 		ImGui::End();

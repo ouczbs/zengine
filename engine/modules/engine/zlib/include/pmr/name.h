@@ -209,6 +209,7 @@ namespace pmr {
 			const StringEntry* stringEntry = UNIQUER_VAL(stringEntryMemoryManager).GetStringEntry(StringEntryHandle(flag3_memory29));
 			return std::string(stringEntry->GetData(), stringEntry->GetSize());
 		}
+		static Name Find(std::string_view view);
 	};
 
 	class Tag {

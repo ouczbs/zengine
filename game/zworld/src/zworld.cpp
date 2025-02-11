@@ -1,10 +1,10 @@
 #include "zlog.h"
 #include "zworld.h"
-#include "data/global.h"
 #include "event/event_system.h"
 #include "vkn/vulkan_window.h"
 #include "vkn/vulkan_api.h"
 #include "render/pass/demo_pass.h"
+#include "engine/app.h"
 #ifdef WITH_EDITOR
     #include "imgui/imgui_impl_sdl2.h"
 #endif
@@ -48,8 +48,9 @@ void ZWorldModule::OnUnload()
 
 void ZWorldModule::MainLoop()
 {
-    bool running = true;
     SDL_Event event_;
+    App app;
+    bool running = app.Launch();
     while (running) {
         // 处理事件
         while (SDL_PollEvent(&event_)) {
@@ -59,7 +60,8 @@ void ZWorldModule::MainLoop()
             if (event_.type == SDL_QUIT) {
                 running = false;
             }
-        }  
+        }
+        app.Update();
         API->BeginFrame();
         API->Render();
         API->EndFrame();

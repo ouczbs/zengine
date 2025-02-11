@@ -8,4 +8,11 @@ namespace api {
 	constexpr const char* CFileMountName = "/work/assets/file_mount.meta";
 
 	extern APP_API EngineConfig gEngineConfig;
+	extern APP_API ProjectConfig gProjectConfig;
 }
+#ifdef WITH_EDITOR
+#include "editor_config.h"
+namespace api{
+	extern APP_API EditorConfig gEditorConfig;
+}
+#endif

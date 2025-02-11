@@ -66,7 +66,7 @@ namespace api {
 		}
 		yyjson_mut_val* obj = yyjson_mut_obj(doc);
 		if (auto p = any.Parent()) {
-			yyjson_mut_obj_add_val(doc, obj, "__parent__", Serialize(doc, p));
+			yyjson_mut_obj_add_val(doc, obj, PARENT_KEY_NAME, Serialize(doc, p));
 		}
 		auto fieldList = any.cls->GetFields(refl::FIND_ALL_MEMBER, pmr::Name(""));
 		for (auto& field : fieldList) {

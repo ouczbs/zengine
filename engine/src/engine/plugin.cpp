@@ -29,8 +29,10 @@ IMPLEMENT_STATIC_MODULE(RENDER_API, api::RenderModule, render);
 
 #ifndef APP_API_VAL
 #define APP_API_VAL 1
+#include "app_module.h"
 #include "app_impl.inl"
 #include "event_system_impl.inl"
+#include "scene_system_impl.inl"
 IMPLEMENT_STATIC_MODULE(APP_API, api::AppModule, app)
 #endif // !APP_API_VAL
 

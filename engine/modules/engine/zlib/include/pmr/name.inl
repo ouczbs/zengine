@@ -152,4 +152,23 @@ namespace pmr {
 		}
 		return slotValue;
 	}
+	inline Name Name::Find(std::string_view view) {
+		Name result{};
+		if (!view.empty()) {
+			HashInfo hashInfo(view);
+			auto& stringEntryMemoryManager = UNIQUER_VAL(stringEntryMemoryManager);
+			auto& slotPool = stringEntryMemoryManager.slotPoolArray[hashInfo.GetSlotPoolIndex()];
+			uint32_t slotValue = 0u;
+			{
+				std::unique_lock<std::mutex> lock(slotPool.mutex);
+				Name::Slot& slot = slotPool.FindUnusedOrTargetSlot(hashInfo);
+				if (slot.IsUsed())
+				{
+					result.flag3_memory29 = slot.GetSlotValue();
+					return result;
+				}
+			}
+		}
+		return result;
+	}
 }

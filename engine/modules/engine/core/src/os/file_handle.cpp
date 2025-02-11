@@ -1,4 +1,5 @@
 #include "os/file_handle.h"
+#include "os/file_system.h"
 #include <algorithm>
 #define READ_DATA_SIZE 100
 #define TOKEN_SIZE 100
@@ -24,6 +25,7 @@ namespace api {
 			break;
 		}
 		case api::FILE_OP::WRITE:
+			fs::EnsurePathExists(file_path);
 			vfile = std::ofstream(file_path.c_str(), is_binarry ? std::ios::binary : 0);
 			break;
 		case api::FILE_OP::APPEND:

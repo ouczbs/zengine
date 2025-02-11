@@ -1,0 +1,13 @@
+__parent__:
+  mName: main
+  mPath: /scene/entry/main.level
+  mOffset:
+    x: 0
+    y: 255
+    z: 0
+mObjects:
+  - __class__: api::GameObject
+    __data__:
+      mName: ""
+      mChildrens: ~
+      mComponents: ~

@@ -1,0 +1,12 @@
+__parent__:
+  mName: entry
+  mLevelBlueprint:
+    __class__: api::LevelBlueprint
+    __data__: ~
+  mLevelInfos:
+    - mName: main
+      mPath: /scene/entry/main.level
+      mOffset:
+        x: 0
+        y: 255
+        z: 0

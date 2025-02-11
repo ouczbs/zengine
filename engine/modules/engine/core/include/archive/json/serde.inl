@@ -37,8 +37,8 @@ namespace gen {
 			for (size_t i = 0; i < length; ++i) {
 				yyjson_val* obj_i = yyjson_arr_get(val, i);
 				if constexpr (refl::is_map_v<T>) {
-					JsonRead(yyjson_obj_get(obj_i, "#k"), it.first);
-					JsonRead(yyjson_obj_get(obj_i, "#v"), it.second);
+					JsonRead(yyjson_obj_get(obj_i, MAP_KEY_NAME), it.first);
+					JsonRead(yyjson_obj_get(obj_i, MAP_VALUE_NAME), it.second);
 					docker[it.first] = it.second;
 				}
 				else {
@@ -54,8 +54,8 @@ namespace gen {
 			if constexpr (refl::is_map_v<T>) {
 				for (auto& it : docker) {
 					yyjson_mut_val* obj = yyjson_mut_obj(doc);
-					yyjson_mut_obj_add_val(doc, obj, "#k", JsonWrite(doc, it.first));
-					yyjson_mut_obj_add_val(doc, obj, "#v", JsonWrite(doc, it.second));
+					yyjson_mut_obj_add_val(doc, obj, MAP_KEY_NAME, JsonWrite(doc, it.first));
+					yyjson_mut_obj_add_val(doc, obj, MAP_VALUE_NAME, JsonWrite(doc, it.second));
 					yyjson_mut_arr_add_val(arr, obj);
 				}
 			}

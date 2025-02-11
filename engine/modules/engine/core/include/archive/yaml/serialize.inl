@@ -36,11 +36,11 @@ namespace api {
 			return Serialize(any.Parent());
 		}
 		YAML::Node result;
-		if (any.cls == meta_info<Any>()) {
+		if (any.Check(meta_info<Any>())) {
 			Any obj = any.CastTo<Any>();
 			if (obj) {
-				result["__class__"] = obj.cls->name.ToStringView();
-				result["__data__"] = Serialize(obj);
+				result[CLASS_KEY_NAME] = obj.cls->name.ToStringView();
+				result[DATA_KEY_NAME] = Serialize(obj);
 			}
 			return result;
 		}
@@ -68,7 +68,7 @@ namespace api {
 			return result;
 		}
 		if (Any p = any.Parent()) {
-			result["__parent__"] = Serialize(p);
+			result[PARENT_KEY_NAME] = Serialize(p);
 		}
 		auto fieldList = any.cls->GetFields(refl::FIND_ALL_MEMBER, Name(""));
 		for (auto& field : fieldList) {
@@ -89,8 +89,8 @@ namespace api {
 		if (any.IsEnum()) {
 			return Deserialize(res, any.Parent());
 		}
-		if (any.cls == meta_info<Any>() && res) {
-			auto __class = res["__class__"];
+		if (any.Check(meta_info<Any>()) && res) {
+			auto __class = res[CLASS_KEY_NAME];
 			if (!__class) {
 				return false;
 			}
@@ -99,7 +99,7 @@ namespace api {
 			if (cls) {
 				Any obj = cls->New(FramePool());
 				*any.CastTo<Any*>() = obj;
-				return Deserialize(res["__data__"], obj);
+				return Deserialize(res[DATA_KEY_NAME], obj);
 			}
 			*any.CastTo<Any*>() = {};
 			return false;
