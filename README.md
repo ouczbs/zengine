@@ -1,7 +1,7 @@
 ![Logo](engine/assets/logo.png)
 # 个人游戏引擎
 
-原始项目: http://175.24.226.114:3000/ouczbs/zengine.git
+源项目: http://175.24.226.114:3000/ouczbs/zengine.git
 
 这是一个模块化的 C++ 游戏引擎，旨在帮助学习和实现基本的游戏引擎系统。它包括多个模块，如渲染、资源管理、UI 等，并使用 Vulkan 作为主要的渲染 API。该引擎的结构被拆分为多个静态库和动态链接库（DLL），通过 `xmake` 管理。
 
